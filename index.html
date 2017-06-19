@@ -5,37 +5,60 @@
     <meta charset="utf-8">
     <title>Train Scheduler</title>
     <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto:500" rel="stylesheet">
- 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/sandstone/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
 
 <body>
   
-    <div>Train Scheduler!</div>
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="text-center">Anytime is Train Time</h1>
+            <p class="text-center">Choo Choo</p>
+        </div>
+    </div>
     <div id="current-time"></div>
-    <div>
-        <div>Currently Saved Trains</div>
-        <div id="content"></div>
-    </div>
-    <div>
-        <div>
-            <input id="name-input" type=text>name</input>
-        </div>
-        <div>
-            <input id="destination-input" type=text>destination</input>
-        </div>
-        <div>
-            <input id="frequency-input" type=text>frequency</input>
-        </div>
-        <div>
-            <input id="first-input" type=text>first train</input>
-        </div>
-        <div>
-            <div id="target"></div>
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">Current Train Schedule</div>
+            <div class="panel-body">
+                <table id="trains" class="table">
+                    <thead>
+                        <th>Name</th>
+                        <th>Destination</th>
+                        <th>Frequency</th>
+                        <th>Next Arrival</th>
+                        <th>Minutes Away</th>
+                    </thead>
+                </table>
+            </div>
         </div>
     </div>
-    <button id="addTrain">Add Train</button>
+    <div class="container">
+        <form>
+            <div class="form-group">
+                <label >Name</label>
+                <input type="text" class="form-control" id="name-input" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <label >Destination</label>
+                <input type="text" class="form-control" id="destination-input" placeholder="Destination">
+            </div>
+            <div class="form-group">
+                <label >Frequency</label>
+                <input type="text" class="form-control" id="frequency-input" placeholder="Train Frequency (minutes)">
+            </div>
+            <div class="form-group">
+                <label >First Train</label>
+                <input type="text" class="form-control" id="first-input" placeholder="First Train">
+            </div>
+            <button id="addTrain" type="submit" class="btn btn-default">Add Train</button>
+        </form>
+    </div>
+
+ 
+
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
