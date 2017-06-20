@@ -18,19 +18,20 @@
             <p class="text-center">Choo Choo</p>
         </div>
     </div>
-    <div id="current-time"></div>
     <div class="container">
         <div class="panel panel-default">
-            <div class="panel-heading">Current Train Schedule</div>
+            <div class="panel-heading" id="current-time"></div>
             <div class="panel-body">
-                <table id="trains" class="table">
+                <table class="table table-hover">
                     <thead>
                         <th>Name</th>
                         <th>Destination</th>
                         <th>Frequency</th>
                         <th>Next Arrival</th>
                         <th>Minutes Away</th>
+                        <th>Remove</th>
                     </thead>
+                    <tbody id="trains"></tbody>
                 </table>
             </div>
         </div>
