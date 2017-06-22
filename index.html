@@ -11,60 +11,75 @@
 </head>
 
 <body>
-  
-    <div class="container">
-        <div class="jumbotron">
-            <h1 class="text-center">Anytime is Train Time</h1>
-            <p class="text-center">Choo Choo</p>
-        </div>
-    </div>
-    <div class="container">
-        <div class="panel panel-default">
-            <div class="panel-heading" id="current-time"></div>
-            <div class="panel-body">
-                <table class="table table-hover">
-                    <thead>
-                        <th>Name</th>
-                        <th>Destination</th>
-                        <th>Frequency</th>
-                        <th>First Arrival</th>
-                        <th>Next Arrival</th>
-                        <th>Minutes Away</th>
-                        <th>Update</th>
-                        <th>Remove</th>
-                    </thead>
-                    <tbody id="trains"></tbody>
-                </table>
+    <div class="page">
+        
+        <div class="container">
+            <div class="jumbotron">
+                <h1 class="text-center">Anytime is Train Time</h1>
+                <p class="text-center">Choo Choo</p>
             </div>
         </div>
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-heading" id="current-time"></div>
+                <div class="panel-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <th>Name</th>
+                            <th>Destination</th>
+                            <th>Frequency</th>
+                            <th>First Arrival</th>
+                            <th>Next Arrival</th>
+                            <th>Minutes Away</th>
+                            <th>Update</th>
+                            <th>Remove</th>
+                        </thead>
+                        <tbody id="trains"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <form>
+                <div class="form-group">
+                    <label >Name</label>
+                    <input type="text" class="form-control" id="name-input" placeholder="Name">
+                </div>
+                <div class="form-group">
+                    <label >Destination</label>
+                    <input type="text" class="form-control" id="destination-input" placeholder="Destination">
+                </div>
+                <div class="form-group">
+                    <label >Frequency</label>
+                    <input type="text" class="form-control" id="frequency-input" placeholder="Train Frequency (minutes)">
+                </div>
+                <div class="form-group">
+                    <label >First Train</label>
+                    <input type="text" class="form-control" id="first-input" placeholder="First Train">
+                </div>
+                <button id="addTrain" type="submit" class="btn btn-default">Add Train</button>
+            </form>
+        </div>
+        <div id="popup" class="popup">
+            <div>
+                <div class="login-choice" id="github-login">
+                    <img id="github-login" class="login-logo" src="assets/images/github_logo.png" alt="github logo">
+                    <div>Log in with Github</div>
+                </div>
+                <div class="login-choice" id="google-login">
+                    <img  class="login-logo" src="assets/images/google_logo.png" alt="google logo">
+                    <div>Log in with Google</div>
+                </div>
+            </div>
+            <div id="error" class="error"></div>
+        </div>
     </div>
-    <div class="container">
-        <form>
-            <div class="form-group">
-                <label >Name</label>
-                <input type="text" class="form-control" id="name-input" placeholder="Name">
-            </div>
-            <div class="form-group">
-                <label >Destination</label>
-                <input type="text" class="form-control" id="destination-input" placeholder="Destination">
-            </div>
-            <div class="form-group">
-                <label >Frequency</label>
-                <input type="text" class="form-control" id="frequency-input" placeholder="Train Frequency (minutes)">
-            </div>
-            <div class="form-group">
-                <label >First Train</label>
-                <input type="text" class="form-control" id="first-input" placeholder="First Train">
-            </div>
-            <button id="addTrain" type="submit" class="btn btn-default">Add Train</button>
-        </form>
-    </div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
     <script type="text/javascript" src="assets/javascript/config.js"></script>
     <script type="text/javascript" src="assets/javascript/app.js"></script>
+
 
 </body>
 

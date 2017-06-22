@@ -25,12 +25,41 @@ $(document).ready(function() {
   			});
 		},
 
+		authenticateUser: function(site){	
+			//based on user input, set authentication provider to use
+			if (site ==="Google"){
+				var provider = new firebase.auth.GoogleAuthProvider();
+			}
+			if (site ==="GitHub"){
+				var provider = new firebase.auth.GithubAuthProvider();
+			}
+			firebase.auth().signInWithPopup(provider).then(function(result) {
+				// This gives you a Google Access Token. You can use it to access the Google API.
+				var token = result.credential.accessToken;
+				// The signed-in user info.
+				var user = result.user;
+				//if authentication is successful, load page content and hide authentication popup
+				$("#popup").attr("style", "visibility:hidden");
+				app.loadContent();
+
+			}).catch(function(error) {
+				// Handle Errors here.
+				var errorCode = error.code;
+				var errorMessage = error.message;
+				// The email of the user's account used.
+				var email = error.email;
+				// The firebase.auth.AuthCredential type that was used.
+				var credential = error.credential;
+				$("#error").html(errorMessage);
+			});
+			
+		},
+
 		//determine minutes until the next train time
 		calcMinutesAway: function(frequency, firstTime){
 			var currentDate=moment().format("MM-DD-YYYY");
 			var convertedDateTime = moment(new Date(currentDate+" "+firstTime));
  			var minutesDiff= moment().diff(convertedDateTime,"minutes");
- 			
 
  			//case 1: first train has not yet arrived
  			if (minutesDiff<0){
@@ -74,11 +103,21 @@ $(document).ready(function() {
 			firebase.database().ref("trains").child($(target).attr("data-key")).remove();
 		},
 
-		//this function iterates through all trains currently present in the firebase DB and outputs train information
 		initialize: function(){
-			
 			//initialize firebase DB based on config information
 			firebase.initializeApp(config);
+
+			$("#google-login").on("click", function(){
+				app.authenticateUser("Google");
+			});
+			$("#github-login").on("click", function(){
+				app.authenticateUser("GitHub");
+			});
+			
+		},
+
+		//this function iterates through all trains currently present in the firebase DB and outputs train information
+		loadContent: function(){
 			
 			this.showTime();
 
@@ -142,7 +181,6 @@ $(document).ready(function() {
 			//set timer to update arrival times every minute and display result
 			app.calcTimes();
 			app.refreshTimes();
-			
 		},
 
 		//this function calculates the initial wait time and next arrival, it also is called whenever user updates train data with new information
@@ -240,9 +278,7 @@ $(document).ready(function() {
 				//refresh minutes away and next train times immediately
 				app.calcTimes();
 			});
-
 		},
-
 	};
 	
  	//log all of the trains currently in firebaseDB
@@ -256,6 +292,6 @@ $(document).ready(function() {
 	});
 	$("#addTrain").on("click", function(){
 		app.addTrain();
-	});	
- 
+	});
+
 });
