@@ -1,4 +1,3 @@
-//lookup dot.env to hide firebase configuration before posting to github pages
 
 $(document).ready(function() {
 	
