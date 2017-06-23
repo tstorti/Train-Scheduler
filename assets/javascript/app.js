@@ -96,6 +96,19 @@ $(document).ready(function() {
 			}
 		},
 
+		//this function calculates the initial wait time and next arrival, it also is called whenever user updates train data with new information
+		calcTimes:function(){
+			firebase.database().ref("trains").on("child_added",function(snapshot){
+				var minutesTarget = "#minutesAway"+snapshot.getKey();
+				var nextTrainTarget = "#nextArrival"+snapshot.getKey();
+				//calculate the initial minutes to wait and next train times 
+		 		var minutesToWait = app.calcMinutesAway(snapshot.val().frequency,snapshot.val().firstArrival);
+			 	var nextTrainTime = app.calcNextTrain(minutesToWait,snapshot.val().firstArrival);
+			 	$(nextTrainTarget).text(nextTrainTime);
+				$(minutesTarget).text(minutesToWait);
+			});
+		},
+
 		//this function deletes the train from the firebase database and removes the row from the html
 		deleteTrain:function(target){
 			var rowTarget = "#"+$(target).attr("data-key");
@@ -107,11 +120,25 @@ $(document).ready(function() {
 			//initialize firebase DB based on config information
 			firebase.initializeApp(config);
 
+			//click listeners used in the app
+			
+			//authentication listeners
 			$("#google-login").on("click", function(){
 				app.authenticateUser("Google");
 			});
 			$("#github-login").on("click", function(){
 				app.authenticateUser("GitHub");
+			});
+
+			//add, update, delete buttons (once content loads)
+			$('body').on("click", ".js-update", function () {
+		    	app.updateTrain(this);
+			});
+			$('body').on("click", ".js-delete", function () {
+				app.deleteTrain(this);
+			});
+			$("#addTrain").on("click", function(){
+				app.addTrain();
 			});
 			
 		},
@@ -119,6 +146,7 @@ $(document).ready(function() {
 		//this function iterates through all trains currently present in the firebase DB and outputs train information
 		loadContent: function(){
 			
+			//show current time in table header
 			this.showTime();
 
 			firebase.database().ref("trains").on("child_added",function(snapshot){
@@ -150,8 +178,6 @@ $(document).ready(function() {
 			 	minutesAway.attr("id","minutesAway"+snapshot.getKey());
 			 	deleteButton.attr("data-key",snapshot.getKey());
 			 	updateButton.attr("data-key",snapshot.getKey());
-				
-				
 			 	
 			 	//set values in html tags
 			 	name.text(snapshot.val().name);
@@ -181,19 +207,6 @@ $(document).ready(function() {
 			//set timer to update arrival times every minute and display result
 			app.calcTimes();
 			app.refreshTimes();
-		},
-
-		//this function calculates the initial wait time and next arrival, it also is called whenever user updates train data with new information
-		calcTimes:function(){
-			firebase.database().ref("trains").on("child_added",function(snapshot){
-				var minutesTarget = "#minutesAway"+snapshot.getKey();
-				var nextTrainTarget = "#nextArrival"+snapshot.getKey();
-				//calculate the initial minutes to wait and next train times 
-		 		var minutesToWait = app.calcMinutesAway(snapshot.val().frequency,snapshot.val().firstArrival);
-			 	var nextTrainTime = app.calcNextTrain(minutesToWait,snapshot.val().firstArrival);
-			 	$(nextTrainTarget).text(nextTrainTime);
-				$(minutesTarget).text(minutesToWait);
-			});
 		},
 
 		//this function is sets an interval timer to automatically update the wait times and next arrival time every minute.  it is called once when initializing the app.
@@ -251,7 +264,7 @@ $(document).ready(function() {
 			$(updateButtonTarget).html("");
 			$(updateButtonTarget).append(saveButton);
 
-			//once user changes 
+			//once user saves changes 
 			$(".js-save").on("click",function(){
 				
 				//set new values in firebase based on user inputs
@@ -281,17 +294,7 @@ $(document).ready(function() {
 		},
 	};
 	
- 	//log all of the trains currently in firebaseDB
+ 	//start the app
 	app.initialize();
-
-	$('body').on("click", ".js-update", function () {
-    	app.updateTrain(this);
-	});
-	$('body').on("click", ".js-delete", function () {
-		app.deleteTrain(this);
-	});
-	$("#addTrain").on("click", function(){
-		app.addTrain();
-	});
 
 });
